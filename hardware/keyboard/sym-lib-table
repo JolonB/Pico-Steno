@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name "CherryMX")(type "KiCad")(uri "${KIPRJMOD}/lib/keys/symbols/CherryMX.kicad_sym")(options "")(descr ""))
+  (lib (name "SC0915")(type "KiCad")(uri "${KIPRJMOD}/lib/components/symbols/SC0915.kicad_sym")(options "")(descr ""))
+)

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "CherryMX_LED")(type "KiCad")(uri "${KIPRJMOD}/lib/keys/CherryMX_LED.pretty")(options "")(descr ""))
+  (lib (name "RPiPico")(type "KiCad")(uri "${KIPRJMOD}/lib/components/RPiPico.pretty")(options "")(descr ""))
+)
