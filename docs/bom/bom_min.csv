@@ -1,0 +1,8 @@
+Index,Manufacturer Part Number,Manufacturer Name,Description,Requested Quantity 1,Digi-Key Part Number 1,Unit Price 1,Extended Price 1,Datasheet
+1,SC0915,Raspberry Pi,RASPBERRY PI PICO RP2040 BOARD,1,2648-SC0915CT-ND,7.1,7.1,https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf
+2,CF18JT10K0,Stackpole Electronics Inc,RES 10K OHM 5% 1/8W AXIAL,1,CF18JT10K0CT-ND,0.18,0.18,https://www.seielect.com/catalog/sei-cf_cfm.pdf
+3,CF18JT1K00,Stackpole Electronics Inc,RES 1K OHM 5% 1/8W AXIAL,29,CF18JT1K00CT-ND,0.0584,1.69,https://www.seielect.com/catalog/sei-cf_cfm.pdf
+4,2N7000,onsemi,MOSFET N-CH 60V 200MA TO92-3,1,2N7000FS-ND,0.82,0.82,https://rocelec.widen.net/view/pdf/orqxwkxkq1/ONSM-S-A0003544006-1.pdf?t.download=true&u=5oefqw
+5,MX1A-11NW,Cherry Americas LLC,SWITCH PUSH SPST-NO 0.01A 12V,27,CH160-ND,1.4932,40.32,https://media.digikey.com/pdf/Data%20Sheets/Cherry%20PDFs/MX%20Series.pdf
+6,WP4060GD,Kingbright,LED GREEN DIFFUSED T/H,27,754-1373-ND,0.496,13.39,https://www.KingbrightUSA.com/images/catalog/SPEC/WP4060GD.pdf
+,,,,,,Total,63.5,All prices in NZD
