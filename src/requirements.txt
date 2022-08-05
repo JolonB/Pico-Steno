@@ -1,0 +1,2 @@
+adafruit_hid==5.2.4
+asyncio==0.5.12
