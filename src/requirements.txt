@@ -1,2 +1,4 @@
 adafruit_hid==5.2.4
+adafruit_logging==4.1.3
+adafruit_simplemath==2.0.5
 asyncio==0.5.12

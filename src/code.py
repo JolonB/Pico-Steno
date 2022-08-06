@@ -143,16 +143,22 @@ async def main():
     button_task = asyncio.create_task(monitor_interval_buttons(board.GP13, led))
     await asyncio.gather(button_task, led_task)
 
-import buttons.button as but
+import button
+import backlight
+import usb_hid
+from adafruit_hid.keyboard import Keyboard
+from adafruit_hid.keycode import Keycode
 async def main2():
-    pf = but.ButtonFunction(print, "pressed")
-    rf = but.ButtonFunction(print, "released")
-    hf = but.ButtonFunction(print, "held")
+    bklight = backlight.Backlight(board.LED)
+    release_func = button.ButtonFunction(bklight.increment_mode)
+
+    # Press H key on hold
+    kbd = Keyboard(usb_hid.devices)
+    hold_func = button.ButtonFunction(kbd.send, Keycode.H)
+
+    led_button = button.Button(board.GP13, release_func=release_func, hold_func=hold_func, hold_time=0.5)
     
-    button = but.Button(board.GP13, press_func=pf, release_func=rf, hold_func=hf, hold_time=0.5)
-    button_task = button.start()
-    
-    await asyncio.gather(button_task)
+    await asyncio.gather(led_button.start(), bklight.start())
 
 if __name__ == "__main__":
     asyncio.run(main2())

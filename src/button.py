@@ -2,6 +2,7 @@ import time
 import asyncio
 
 import digitalio
+import adafruit_logging as logging
 
 
 class ButtonFunction:
@@ -44,18 +45,28 @@ class Button:
             hold_time (float, optional): The time the button must be held for
             to register as held. Defaults to 1.0.
         """
-        # Initialise button
-        self.__setup_button(pin_id)
+        self.__pin_name = str(pin_id)
+        self.__logger = logging.getLogger("Button")
 
         # Set up functions to call when button is pressed, released, or held
+        self._press_func = self._release_func = self._hold_func = None
         self.__setup_functions(press_func, release_func, hold_func)
 
         self.hold_time = hold_time
+
+        # Initialise button
+        self.__setup_button(pin_id)
+
+    def __log(self, level, msg):
+        self.__logger.log(level, "({}) {}".format(self.__pin_name, msg))
 
     def __setup_button(self, pin_id):
         self.button = digitalio.DigitalInOut(pin_id)
         self.button.switch_to_input()
         self.button.pull = digitalio.Pull.UP
+
+        self.__log(logging.INFO, "Button configured on pin {}".format(pin_id))
+        self.__pin_name = str(pin_id)
 
     def __setup_functions(self, press_func, release_func, hold_func):
         if isinstance(press_func, ButtonFunction):
@@ -96,29 +107,36 @@ class Button:
         press_time = time.monotonic()
         # Detect if button is pressed, released, or held
         while True:
-            if not self.button.value:  # pressed
+            if self.button_pressed():  # pressed
                 # Only trigger a press event if the button is not already pressed
                 if not pressed:
                     pressed = True
                     press_time = time.monotonic()
-                    await self.__button_pressed()
+                    self.__button_pressed()
                 if time.monotonic() > press_time + self.hold_time:
-                    await self.__button_held()
+                    self.__button_held()
             else:  # released
                 # Only trigger a release event if the button is pressed
                 if pressed:
                     pressed = False
-                    await self.__button_released()
-            await asyncio.sleep(0.1)
+                    self.__button_released()
+            # Wait 5 ms before polling key again
+            await asyncio.sleep(0.005)
 
-    async def __button_pressed(self):
+    def button_pressed(self):
+        return not self.button.value
+
+    def __button_pressed(self):
         if isinstance(self._press_func, ButtonFunction):
+            self.__log(logging.DEBUG, "Button pressed")
             self._press_func()
 
-    async def __button_released(self):
+    def __button_released(self):
         if isinstance(self._release_func, ButtonFunction):
+            self.__log(logging.DEBUG, "Button released")
             self._release_func()
 
-    async def __button_held(self):
+    def __button_held(self):
         if isinstance(self._hold_func, ButtonFunction):
+            self.__log(logging.DEBUG, "Button held")
             self._hold_func()
