@@ -73,3 +73,12 @@ I then decided I wanted optional extra keys, so added the IO extender.
 
 That's what happens when each key is connected directly to the microcontroller without optimising the which switch connects to which pin.  
 But hey, this is open source; if it bugs you, feel free to fork it!
+
+## I can't detect my board
+
+```shell
+pip3 install adafruit-board-toolkit
+python3 -c "import adafruit_board_toolkit.circuitpython_serial; print(adafruit_board_toolkit.circuitpython_serial.data_comports()[0].device)"
+```
+
+If you get `IndexError: tuple index out of range`, then no data port was detected.
