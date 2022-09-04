@@ -1,4 +1,5 @@
 import asyncio
+import math
 
 import pwmio
 import adafruit_simplemath as smath
@@ -6,7 +7,7 @@ import adafruit_logging as logging
 
 
 class Backlight:
-    __MAX_DUTY = 65535
+    __MAX_DUTY = 65535 // 2
 
     def __init__(self, pin, fade_rate:float=1.0):
         # Initialise PWM pin for backlight control
@@ -35,6 +36,9 @@ class Backlight:
             duty_0_1 (float): A duty cycle between 0 and 1
         """
         return int(smath.map_range(duty_0_1, 0, 1, 0, self.__MAX_DUTY))
+
+    def __sin_func(self, duty_0_1:float) -> float:
+        return (1 - math.cos(duty_0_1*math.pi)) / 2
 
     def __log(self, level, msg):
         self.__logger.log(level, "({}) {}".format(self.__pin_name, msg))
@@ -95,9 +99,9 @@ class Backlight:
 
     async def blink(self):
         while self.__mode == 5:
-            self.set_duty_cycle(1)
-            await asyncio.sleep(0.5)
             self.set_duty_cycle(0)
+            await asyncio.sleep(0.5)
+            self.set_duty_cycle(0.5)
             await asyncio.sleep(0.5)
 
     async def fade(self):
@@ -106,7 +110,7 @@ class Backlight:
         brightness = 0.0
 
         while self.__mode == 6:
-            self.set_duty_cycle(brightness)
+            self.set_duty_cycle(self.__sin_func(brightness))
             brightness += fade_amount
             # Reverse the fading direction if we've hit the end of the fade
             if not (0 <= brightness <= 1):

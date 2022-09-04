@@ -1,5 +1,6 @@
 import usb_cdc
 
+
 class TXBolt:
     __PACKET_LEN = 5
     __STENO_KEY_CHART = (
@@ -49,6 +50,4 @@ class TXBolt:
                     self.packet[index] |= 1 << key_index
 
     def packet_to_bin(self):
-        return "".join(
-            "{:08b} ".format(byte) for byte in self.packet
-        )
+        return "".join("{:08b} ".format(byte) for byte in self.packet)
